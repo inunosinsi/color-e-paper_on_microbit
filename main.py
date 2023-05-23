@@ -12,15 +12,6 @@ PWR_PIN  = 18
 #SCLK_PIN = pin13
 
 class Microbit:
-    def digital_write(self, pin, value):
-        self.GPIO.output(pin, value)
-
-    def digital_read(self, pin):
-        return self.GPIO.input(pin)
-
-    def delay_ms(self, delaytime):
-        time.sleep(delaytime / 1000.0)
-
     def spi_writebyte(self, data):
         self.SPI.writebytes(data)
 
@@ -49,11 +40,11 @@ class Microbit:
         self.SPI.close()
 
         print("close 5V, Module enters 0 power consumption ...")
-        self.GPIO.output(self.RST_PIN, 0)
-        self.GPIO.output(self.DC_PIN, 0)
-        self.GPIO.output(self.PWR_PIN, 0)
+        #self.GPIO.output(self.RST_PIN, 0)
+        #self.GPIO.output(self.DC_PIN, 0)
+        #self.GPIO.output(self.PWR_PIN, 0)
 
-        self.GPIO.cleanup([self.RST_PIN, self.DC_PIN, self.CS_PIN, self.BUSY_PIN, self.PWR_PIN])
+        #self.GPIO.cleanup([self.RST_PIN, self.DC_PIN, self.CS_PIN, self.BUSY_PIN, self.PWR_PIN])
 
 implementation = Microbit()
 
@@ -100,7 +91,6 @@ class EPD:
         CS_PIN.write_digital(0)
         epdconfig.spi_writebyte([data])
         CS_PIN.write_digital(1)
-        epdconfig.digital_write(self.cs_pin, 1)
         
     def ReadBusyH(self):
         print("e-Paper busy H")
