@@ -2,25 +2,16 @@ import sys
 import os
 import time
 
+# Pin definition
+RST_PIN  = pin0
+DC_PIN   = 25
+CS_PIN   = 8
+BUSY_PIN = pin1
+PWR_PIN  = 18
+#MISO_PIN = pin15
+#SCLK_PIN = pin13
 
 class Microbit:
-    # Pin definition
-    RST_PIN  = pin0
-    DC_PIN   = 25
-    CS_PIN   = 8
-    BUSY_PIN = pin1
-    PWR_PIN  = 18
-    #MISO_PIN = pin15
-    #SCLK_PIN = pin13
-    
-
-    def __init__(self):
-        import spidev
-        import RPi.GPIO
-
-        self.GPIO = RPi.GPIO
-        self.SPI = spidev.SpiDev()
-
     def digital_write(self, pin, value):
         self.GPIO.output(pin, value)
 
@@ -91,18 +82,18 @@ class EPD:
         
     # Hardware reset
     def reset(self):
-        epdconfig.digital_write(self.reset_pin, 1)
-        epdconfig.delay_ms(200) 
-        epdconfig.digital_write(self.reset_pin, 0)         # module reset
-        epdconfig.delay_ms(2)
-        epdconfig.digital_write(self.reset_pin, 1)
-        epdconfig.delay_ms(200)   
+        RST_PIN.write_digital(1)
+        sleep(200)
+        RST_PIN.write_digital(0)         # module reset
+        sleep(2)
+        RST_PIN.write_digital(1)
+        sleep(200)
 
     def send_command(self, command):
-        epdconfig.digital_write(self.dc_pin, 0)
-        epdconfig.digital_write(self.cs_pin, 0)
+        DC_PIN.write_digital(0)
+        CS_PIN.write_digital(0)
         epdconfig.spi_writebyte([command])
-        epdconfig.digital_write(self.cs_pin, 1)
+        CS_PIN.write_digital(1)
 
     def send_data(self, data):
         epdconfig.digital_write(self.dc_pin, 1)
