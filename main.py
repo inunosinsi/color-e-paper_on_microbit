@@ -10,6 +10,9 @@ class Microbit:
     CS_PIN   = 8
     BUSY_PIN = pin1
     PWR_PIN  = 18
+    #MISO_PIN = pin15
+    #SCLK_PIN = pin13
+    
 
     def __init__(self):
         import spidev
