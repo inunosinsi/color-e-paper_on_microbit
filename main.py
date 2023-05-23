@@ -12,12 +12,6 @@ PWR_PIN  = 18
 #SCLK_PIN = pin13
 
 class Microbit:
-    def spi_writebyte(self, data):
-        self.SPI.writebytes(data)
-
-    def spi_writebyte2(self, data):
-        self.SPI.writebytes2(data)
-
     def module_init(self):
         self.GPIO.setmode(self.GPIO.BCM)
         self.GPIO.setwarnings(False)
@@ -76,16 +70,16 @@ class EPD:
         RST_PIN.write_digital(1)
         sleep(200)
 
-    def send_command(self, command):
+    def send_command(self, cmd):
         DC_PIN.write_digital(0)
         CS_PIN.write_digital(0)
-        epdconfig.spi_writebyte([command])
+        spi.write(bytes([cmd]))
         CS_PIN.write_digital(1)
 
-    def send_data(self, data):
+    def send_data(self, d):
         DC_PIN.write_digital(1)
         CS_PIN.write_digital(0)
-        epdconfig.spi_writebyte([data])
+        spi.write(bytes([d]))
         CS_PIN.write_digital(1)
         
     def ReadBusyH(self):
