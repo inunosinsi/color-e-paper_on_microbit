@@ -127,10 +127,19 @@ class EPD:
         self.ReadBusyH()
 
         self.send_command(0x10)
-        for j in range(0, Height):
-            for i in range(0, Width):
-                self.send_data(l[i + j * Width])
-
+        if len(l) > 0:
+            for j in range(0, Height):
+                for i in range(0, Width):
+                    self.send_data(l[i + j * Width])
+        else:
+            for j in range(0, Height):
+                for i in range(0, Width):
+                    if i > 25:
+                        self.send_data(11)
+                    else:
+                        self.send_data(85)
+                
+        sleep(5000)
         self.TurnOnDisplay()
         
     def Clear(self, color=0x55):
@@ -162,9 +171,9 @@ class EPD:
 print("epd3in0g Demo")
 
 epd = EPD()   
-print("init and Clear")
-epd.init()
-epd.Clear()
+#print("init and Clear")
+#epd.init()
+#epd.Clear()
 
 # Drawing on the image
 epd.init()
