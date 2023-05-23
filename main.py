@@ -2,6 +2,7 @@ from microbit import *
 
 buf = []
 
+# pin3 を使用できるようにする
 display.off()
 
 # Pin definition
@@ -131,15 +132,7 @@ class EPD:
             for j in range(0, Height):
                 for i in range(0, Width):
                     self.send_data(l[i + j * Width])
-        else:
-            for j in range(0, Height):
-                for i in range(0, Width):
-                    if i > 25:
-                        self.send_data(11)
-                    else:
-                        self.send_data(85)
-                
-        sleep(5000)
+        
         self.TurnOnDisplay()
         
     def Clear(self, color=0x55):
