@@ -45,10 +45,10 @@ class Microbit:
         return 0
 
     def module_exit(self):
-        logger.debug("spi end")
+        print("spi end")
         self.SPI.close()
 
-        logger.debug("close 5V, Module enters 0 power consumption ...")
+        print("close 5V, Module enters 0 power consumption ...")
         self.GPIO.output(self.RST_PIN, 0)
         self.GPIO.output(self.DC_PIN, 0)
         self.GPIO.output(self.PWR_PIN, 0)
@@ -96,22 +96,23 @@ class EPD:
         CS_PIN.write_digital(1)
 
     def send_data(self, data):
-        epdconfig.digital_write(self.dc_pin, 1)
-        epdconfig.digital_write(self.cs_pin, 0)
+        DC_PIN.write_digital(1)
+        CS_PIN.write_digital(0)
         epdconfig.spi_writebyte([data])
+        CS_PIN.write_digital(1)
         epdconfig.digital_write(self.cs_pin, 1)
         
     def ReadBusyH(self):
-        logger.debug("e-Paper busy H")
-        while(epdconfig.digital_read(self.busy_pin) == 0):      # 0: idle, 1: busy
-            epdconfig.delay_ms(5)
-        logger.debug("e-Paper busy H release")
+        print("e-Paper busy H")
+        while(BUSY_PIN.read_digital() == 0):      # 0: idle, 1: busy
+            sleep(5)
+        print("e-Paper busy H release")
 
     def ReadBusyL(self):
-        logger.debug("e-Paper busy L")
-        while(epdconfig.digital_read(self.busy_pin) == 1):      # 0: busy, 1: idle
+        print("e-Paper busy L")
+        while(BUSY_PIN.read_digital() == 1):      # 0: busy, 1: idle
             epdconfig.delay_ms(5)
-        logger.debug("e-Paper busy L release")
+        print("e-Paper busy L release")
 
     def TurnOnDisplay(self):
         self.send_command(0x12) # DISPLAY_REFRESH
@@ -213,7 +214,7 @@ class EPD:
         self.send_command(0x10)
         for j in range(0, Height):
             for i in range(0, Width):
-                    self.send_data(image[i + j * Width])
+                self.send_data(image[i + j * Width])
 
         self.TurnOnDisplay()
         
@@ -241,13 +242,11 @@ class EPD:
         self.send_command(0x07) # DEEP_SLEEP
         self.send_data(0XA5)
         
-        epdconfig.delay_ms(2000)
+        sleep(2000)
         epdconfig.module_exit()
-### END OF FILE ###
 
 from PIL import Image,ImageDraw,ImageFont
 import traceback
-
 
 print("epd3in0g Demo")
 
@@ -302,19 +301,19 @@ epd.init()
 print("3.read bmp file")
 Himage = Image.open(os.path.join(picdir, '3inch-1.bmp'))
 epd.display(epd.getbuffer(Himage))
-time.sleep(3)
+sleep(3000)
 
 epd.init()
 print("4.read bmp file")
 Himage = Image.open(os.path.join(picdir, '3inch-2.bmp'))
 epd.display(epd.getbuffer(Himage))
-time.sleep(3)
+sleep(3000)
 
 epd.init()
 print("5.read bmp file")
 Himage = Image.open(os.path.join(picdir, '3inch-3.bmp'))
 epd.display(epd.getbuffer(Himage))
-time.sleep(3)
+sleep(3000)
 
 epd.init()
 print("Clear...")
