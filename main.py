@@ -1,6 +1,6 @@
+from microbit import *
 import sys
 import os
-import time
 
 # Pin definition
 RST_PIN  = pin0
@@ -60,10 +60,6 @@ EPD_HEIGHT      = 400
 
 class EPD:
     def __init__(self):
-        self.reset_pin = epdconfig.RST_PIN
-        self.dc_pin = epdconfig.DC_PIN
-        self.busy_pin = epdconfig.BUSY_PIN
-        self.cs_pin = epdconfig.CS_PIN
         self.width = EPD_WIDTH
         self.height = EPD_HEIGHT
         self.BLACK  = 0x000000   #   00  BGR
@@ -265,7 +261,7 @@ draw.rectangle((90, 170, 165, 245), fill = epd.YELLOW)
 draw.arc((5, 250, 80, 325), 0, 360, fill = epd.BLACK)
 draw.chord((90, 250, 165, 325), 0, 360, fill = epd.RED)
 epd.display(epd.getbuffer(Himage))
-time.sleep(3)
+sleep(3000)
 
 # Switch width and height for landscape display
 epd.init()
@@ -284,7 +280,7 @@ draw.rectangle((305, 5, 395, 65), fill = epd.RED)
 draw.arc((205, 75, 295, 165), 0, 360, fill = epd.BLACK)
 draw.chord((305, 75, 395, 165), 0, 360, fill = epd.YELLOW)
 epd.display(epd.getbuffer(Himage))
-time.sleep(3)
+sleep(3000)
 
 # read bmp file 
 epd.init()
