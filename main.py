@@ -7,10 +7,10 @@ logger = logging.getLogger(__name__)
 
 class Microbit:
     # Pin definition
-    RST_PIN  = 17
+    RST_PIN  = pin0
     DC_PIN   = 25
     CS_PIN   = 8
-    BUSY_PIN = 24
+    BUSY_PIN = pin1
     PWR_PIN  = 18
 
     def __init__(self):
