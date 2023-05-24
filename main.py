@@ -167,10 +167,7 @@ class EPD:
         
 print("epd3in0g Demo")
 
-epd = EPD()   
-#print("init and Clear")
-#epd.init()
-#epd.Clear()
+epd = EPD()
 
 # Drawing on the image
 epd.init()
