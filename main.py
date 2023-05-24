@@ -127,11 +127,15 @@ class EPD:
         self.send_command(0x04)
         self.ReadBusyH()
 
-        self.send_command(0x10)
-        if len(l) > 0:
-            for j in range(0, Height):
-                for i in range(0, Width):
-                    self.send_data(l[i + j * Width])
+        count = len(l)
+        for j in range(0, Height):
+            for i in range(0, Width):
+                idx = i + j * Width
+                if count > idx:                
+                    self.send_data(l[idx])
+                else:
+                    # 足りない分はWHITEで埋める
+                    self.send_data(0)
         
         self.TurnOnDisplay()
         
